@@ -1,0 +1,21 @@
+ply
+format ascii 1.0
+comment Created in Blender version 4.1.1
+element vertex 4
+property float x
+property float y
+property float z
+property float nx
+property float ny
+property float nz
+property float s
+property float t
+element face 2
+property list uchar uint vertex_indices
+end_header
+1.1278942 0.0056394706 -1.1278942 0 1.773216 0 -0.5 -0.5
+-1.1278942 0.0056394706 1.1278942 0 1.773216 0 1.5 1.5
+1.1278942 0.0056394706 1.1278942 0 1.773216 0 -0.5 1.5
+-1.1278942 0.0056394706 -1.1278942 0 1.773216 0 1.5 -0.5
+3 0 1 2
+3 0 3 1
