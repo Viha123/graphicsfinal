@@ -29,11 +29,9 @@ public:
   void dragEvent(ofDragInfo dragInfo);
   void gotMessage(ofMessage msg);
   void renderDepthMap();
-  void renderSceneWithShadows();
-  void renderSceneFirstPass();
+  void renderScene();
   void renderScene(ofShader& shader);
   ofShader mainShader;
-  ofShader shadowShader;
   ofShader debugShader;
   ofShader compute;
   ofEasyCam cam;
@@ -41,9 +39,6 @@ public:
   ofMesh terrainMesh;
   ofMesh waterPlane;
   ofCubeMap skybox;
-  ofTexture depthBufferTexture;
-
-  ofFbo shadow;
 
   ofxPanel gui;
   ofxFloatSlider lightPosX;
@@ -54,12 +49,13 @@ public:
   ofxFloatSlider pECenterz;
   ofxFloatSlider pECenterRadius;
 
+  
   struct Particle { // include lifespan and stuff later
     glm::vec4 pos;
     glm::vec4 vel;
     ofFloatColor col;
-    
   };
+  
   std::vector<Particle> particles;
   ofVbo vbo;
   ofBufferObject particlesBuffer,

@@ -77,8 +77,8 @@ void main() {
   vec3 specular = specularStrength * spec * lightColor;
   // Combine results
   float shadow = shadowCalculation(fragPosLightSpace);
-  vec3 result = ambient + (1 - shadow) * (diffuse + specular);
-  // vec3 result = ambient + diffuse + specular;
+  // vec3 result = ambient + (1 - shadow) * (diffuse + specular);
+  vec3 result = ambient + diffuse + specular;
   outputColor = vec4(0., 0., 0., 0.);
   if (normal.y == 1) {
 
@@ -88,5 +88,5 @@ void main() {
     result = result * normalize(Color);
     outputColor = vec4(result, 1.0);
   }
-  // outputColor = vec4(shadow);
+  // outputColor = vec4(result, 1.0);
 }

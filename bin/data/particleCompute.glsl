@@ -8,7 +8,7 @@ struct Particle {
 
 layout(std140, binding = 0) buffer particle { Particle p[]; };
 layout(std140, binding = 1) buffer particlesBack { Particle p2[]; };
-layout(local_size_x = 512, local_size_y = 1, local_size_z = 1) in;
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
 
 uniform float timeLastFrame;
 uniform float emitterX;
@@ -17,12 +17,18 @@ uniform float emitterZ;
 uniform float emitterR;
 
 float rand(float min, float max, float seed) {
-  return min +
-         (max - min) * fract(sin(seed * 12.9898 + 78.233) *
-                             43758.5453);
+  return min + (max - min) * fract(sin(seed * 12.9898 + 78.233) * 43758.5453);
 }
+// float lerp(float t) {
+//   // start value = 0
+//   // end value = 1;
+//   // time = % of 3 seconds that the lifespan has been availablef ro
+//   return
+// }
+
 void main() {
   uint id = gl_GlobalInvocationID.x;
+  float maxLifeTime = 3; // each pixel has a lifetime of 1sec to 3 seconds
   vec4 acceleration = vec4(
       0, -8, 0, 0); // use acceleration to intergrate velocity and position
                     // Update the position based on velocity and timeLastFrame
@@ -42,17 +48,30 @@ void main() {
     p[id].vel.x = rand(-15, 15, gl_GlobalInvocationID.x * 7.0);
     p[id].vel.y = 10;
     p[id].vel.z = rand(-15, 15, gl_GlobalInvocationID.x * 11.0);
-		// p[id].pos.xyz = vec3(emitterX + emitterR, emitterY,emitterZ);
-		p[id].pos.x = rand(emitterX - emitterR, emitterX + emitterR, gl_GlobalInvocationID.x * 23);
-		p[id].pos.y = rand(emitterY, emitterY, gl_GlobalInvocationID.x * 29);
-		p[id].pos.z = rand(emitterZ - emitterR, emitterZ + emitterR, gl_GlobalInvocationID.x * 31);
+    // p[id].pos.xyz = vec3(emitterX + emitterR, emitterY,emitterZ);
+    p[id].pos.x = rand(emitterX - emitterR, emitterX + emitterR,
+                       gl_GlobalInvocationID.x * 23);
+    p[id].pos.y = rand(emitterY, emitterY, gl_GlobalInvocationID.x * 29);
+    p[id].pos.z = rand(emitterZ - emitterR, emitterZ + emitterR,
+                       gl_GlobalInvocationID.x * 31);
+  }
+  float lifeRatio =
+      p[id].pos.w / maxLifeTime; // Remaining lifetime as a ratio (0 to 1)
 
-	}
-  // p[id].pos.xyz += p[id].vel.xyz * timeLastFrame;
+  // Define the colors for interpolation
+  vec3 white = vec3(1.0, 1.0, 1.0);
+  vec3 red = vec3(1.0, 0.0, 0.0);
+  vec3 yellow = vec3(1.0, 1.0, 0.0);
 
-  p[id].col = vec4(1.0, // Red
-                   1.0, // Green
-                   0.,  // Blue
-                   1.0  // Alpha
-  );
+  // Interpolate between white → red → yellow
+  vec3 color;
+  if (lifeRatio > 0.3) {
+    color = mix(red, white, (lifeRatio - 0.5) * 2.0); // Interpolate white → red
+  } else {
+    color = mix(yellow, red, lifeRatio * 2.0); // Interpolate red → yellow
+  }
+
+  // Set the final color with alpha based on remaining lifetime
+  p[id].col = vec4(color, lifeRatio); // Alpha decreases with lifetime
+
 }

@@ -20,17 +20,14 @@ void ofApp::setup() {
   if (ofIsGLProgrammableRenderer()) {
     cout << "gls3" << endl;
     mainShader.load("shadersGL3/mainShader");
-    shadowShader.load("shadersGL3/shadowShader");
     debugShader.load("shadersGL3/debugShader");
   } else {
     cout << "gls2" << endl;
-
-    mainShader.load("shadersGL2/shader");
   }
   // setting up compute shader
   compute.setupShaderFromFile(GL_COMPUTE_SHADER, "particleCompute.glsl");
   compute.linkProgram();
-  particles.resize(512);
+  particles.resize(1024);
 
   for (auto &p : particles) {
     p.pos.x = pECenterx;
@@ -52,7 +49,7 @@ void ofApp::setup() {
 
   cam.setDistance(2);
   cam.setNearClip(0.1);
-  cam.setFarClip(100);
+  cam.setFarClip(500);
   light.setup();
   light.enable();
   // light.setDirectional();
@@ -68,31 +65,6 @@ void ofApp::setup() {
   ofFile s_box;
   s_box.open("skybox.png", ofFile::ReadOnly);
   skybox.load(s_box, 2300, true);
-  ofEnableArbTex();
-  ofFboSettings s;
-  s.width = ofGetWidth(); // Shadow map resolution
-  s.height = ofGetHeight();
-  s.useDepth = true;              // Enable depth buffer
-  s.useStencil = false;           // No stencil buffer needed
-  s.depthStencilAsTexture = true; // Enable depth as a texture
-  s.depthStencilInternalFormat = GL_DEPTH_COMPONENT32; // Depth-only
-  s.textureTarget = GL_TEXTURE_2D;                     // Standard
-  s.minFilter = GL_NEAREST; // No interpolation for shadows
-  s.maxFilter = GL_NEAREST;
-  s.wrapModeHorizontal = GL_REPEAT; // Prevent shadow artifacts
-  s.wrapModeVertical = GL_REPEAT;
-  // ofDisableArbTex();
-  shadow.allocate(s);
-  if (!shadow.getDepthTexture().isAllocated()) {
-    ofLogError() << "FBO is not complete!";
-  }
-  shadow.begin();
-  ofClear(0, 0, 0);
-  shadow.end();
-  shadow.checkStatus();
-  shadow.checkGLSupport();
-
-  ofDisableArbTex();
 
   //                                           0);
   gui.setup();
@@ -103,9 +75,8 @@ void ofApp::setup() {
   gui.add(pECentery.setup("Emitter Center Y", 56, -200, 200));
   gui.add(pECenterz.setup("Emitter Center Z", 37, -200, 200));
   gui.add(pECenterRadius.setup("Emitter Center Radius", 0, 0, 30));
-      
 }
-void ofApp::renderSceneWithShadows() {
+void ofApp::renderScene() {
   ofSetColor(255);
   ofEnableDepthTest();
   mainShader.begin();
@@ -133,10 +104,9 @@ void ofApp::renderSceneWithShadows() {
                                 light.getGlobalTransformMatrix());
   mainShader.setUniformMatrix4f("customMVPMatrix", mvp);
 
+
   model = glm::mat4(1.0) * glm::scale(glm::vec3(50, 50, 50));
   mainShader.setUniformMatrix4f("model", model);
-
-  mainShader.setUniformTexture("shadowMap", depthBufferTexture, 0);
 
   terrainMesh.draw();
   waterPlane.draw();
@@ -149,52 +119,12 @@ void ofApp::renderSceneWithShadows() {
   cam.end();
 }
 
-void ofApp::renderSceneFirstPass() {
-  // shadow.clearDepthBuffer(0);
-  ofEnableDepthTest();
 
-  ofEnableLighting();
-  light.setPosition(lightPosX, lightPosY, lightPosZ);
-  light.lookAt(glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-
-  cam.setNearClip(0.5);
-  cam.setFarClip(1000);
-  shadow.begin(); // fbo
-  cam.begin();
-  // ofSetColor(255);
-  ofClear(0, 0, 0);
-  shadowShader.begin();
-  shadowShader.setUniformMatrix4f("lightSpaceMatrix",
-                                  light.getGlobalTransformMatrix());
-  glm::mat4 model = glm::mat4(1.0f) * glm::scale(glm::vec3(50, 50, 50));
-  shadowShader.setUniformMatrix4f("model", model);
-
-  terrainMesh.draw();
-  waterPlane.draw();
-  // ofDrawSphere(0, 0, 1);
-  shadowShader.end();
-  cam.end();
-  shadow.end();
-}
 
 //--------------------------------------------------------------
 void ofApp::update() {
   ofEnableDepthTest();
-  // RENDERS THE SCENE FROM THE PERSPECTIVE OF LIGHT AND GENERATES DEPTH TEXTURE
-  renderSceneFirstPass();
-  depthBufferTexture = shadow.getDepthTexture();
-  // DEBUG STUFF
-  if (ofGetKeyPressed('b')) {
 
-    ofBufferObject buffer;
-    buffer.allocate(ofGetWidth() * ofGetHeight() * 4, GL_STATIC_READ);
-    depthBufferTexture.copyTo(buffer);
-    unsigned char *f = buffer.map<unsigned char>(GL_READ_ONLY);
-    ofPixels pixels;
-    pixels.setFromExternalPixels(f, ofGetWidth(), ofGetHeight(), 4);
-    ofSaveImage(pixels, "buffer.png");
-    std::cout << "buffer.img saved\n";
-  }
   compute.begin();
   // cout << pECenterx << endl;
   compute.setUniform1f("emitterX", pECenterx);
@@ -202,7 +132,7 @@ void ofApp::update() {
   compute.setUniform1f("emitterZ", pECenterz);
   compute.setUniform1f("emitterR", pECenterRadius);
 
-  compute.dispatchCompute((particles.size() + 512 - 1) / 512, 1, 1);
+  compute.dispatchCompute((particles.size() + 1024 - 1) / 1024, 1, 1);
   compute.end();
   particlesBuffer.copyTo(particlesBuffer2);
 }
@@ -220,21 +150,19 @@ void drawNormals(ofVboMesh &mesh) {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-  // FIRST PASS IS ALREADY DONE IN THE UPDATE FUNCTION
-  renderSceneWithShadows();
-  // DEBUG LIGHT STUFF
-  // cam.setPosition(glm::vec3(-3,26, -105));
+
+  renderScene();
 
   cam.begin();
-  // ofSetColor(ofColor::yellow);
-  // ofDrawSphere(light.getPosition(),
-  //              1); // Draw the light's position as a small sphere
+  ofSetColor(ofColor::yellow);
+  ofDrawSphere(light.getPosition(),
+               1); // Draw the light's position as a small sphere
 
-  // // Draw a line from the light to the target
-  // ofSetColor(ofColor::red);
-  // ofDrawLine(light.getPosition(),
-  //            glm::vec3(0.0f, 0.0f, 0.0f)); // Line to the target
-  // ofSetColor(ofColor::red);
+  // Draw a line from the light to the target
+  ofSetColor(ofColor::red);
+  ofDrawLine(light.getPosition(),
+             glm::vec3(0.0f, 0.0f, 0.0f)); // Line to the target
+  ofSetColor(ofColor::red);
   glPointSize(5);
   vbo.draw(GL_POINTS, 0, particles.size());
   cam.end();
