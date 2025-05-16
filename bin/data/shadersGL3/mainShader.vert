@@ -8,6 +8,7 @@ uniform mat4 modelViewProjectionMatrix;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform sampler2D grassTexture;
 
 uniform mat4 customMVPMatrix;
 in vec4 position;
@@ -20,6 +21,7 @@ uniform mat4 lightSpaceMatrix;
 out vec3 FragPos;
 out vec3 Normal;
 out vec3 Color;
+out vec2 Texcoord;
 out vec4 fragPosLightSpace;
 
 void main() {
@@ -33,4 +35,5 @@ void main() {
   Normal = mat3(transpose(inverse(model))) * normal;
   // Normal = normal;
   Color = color_coord;
+  Texcoord = texcoord;
 }

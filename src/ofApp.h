@@ -30,7 +30,8 @@ public:
   void gotMessage(ofMessage msg);
   void renderDepthMap();
   void renderScene();
-  void renderScene(ofShader& shader);
+  void renderScene(ofShader &shader);
+  void generatePerlinNoiseMesh(); // generate the terrain mesh with a vbomesh
   ofShader mainShader;
   ofShader debugShader;
   ofShader compute;
@@ -39,7 +40,7 @@ public:
   ofMesh terrainMesh;
   ofMesh waterPlane;
   ofCubeMap skybox;
-
+  ofVboMesh customMesh;
   ofxPanel gui;
   ofxFloatSlider lightPosX;
   ofxFloatSlider lightPosY;
@@ -48,7 +49,10 @@ public:
   ofxFloatSlider pECentery;
   ofxFloatSlider pECenterz;
   ofxFloatSlider pECenterRadius;
-
+  ofxFloatSlider amplitude;
+  ofxFloatSlider frequency;
+  ofxFloatSlider octaves;
+  
   
   struct Particle { // include lifespan and stuff later
     glm::vec4 pos;
@@ -61,6 +65,7 @@ public:
   ofBufferObject particlesBuffer,
       particlesBuffer2; // keep track of current pos and vel, and keep track of
                         // prev pos and vel
+  ofImage grassImage, rockImage, snowImage;
   
   
 };

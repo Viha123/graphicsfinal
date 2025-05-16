@@ -9,14 +9,84 @@
 #include "ofGraphics.h"
 #include "ofGraphicsConstants.h"
 #include "ofLight.h"
+#include "ofMain.h"
 #include "ofMath.h"
+#include "ofShader.h"
 #include "ofTexture.h"
 #include "ofUtils.h"
 #include "ofVboMesh.h"
 #include <cstdlib>
 
+float calculateOctaveHeight(float amplitude, float frequency, int nOctaves,
+                            float x, float y) {
+  float height = 0;
+  for (int i = 0; i < nOctaves; i++) {
+    height += ofNoise(x * frequency, y * frequency) * amplitude;
+    amplitude *= 0.5;
+    frequency *= 2;
+  }
+  return height;
+}
+void ofApp::generatePerlinNoiseMesh() {
+  // Generate a grid of vertices
+  int width = 50;
+  int depth = 50;
+  customMesh.clear();
+  // here we make the points inside our mesh
+  // add one vertex to the mesh across our width and height
+  // we use these x and y values to set the x and y co-ordinates of the mesh,
+  // adding a z value of zero to complete the 3d location of each vertex
+  int w = 0;
+  int d = 0;
+  for (float y = 0; y < depth; y += 0.5) {
+    d = 0;
+    for (float x = 0; x < width; x += 0.5) {
+      float rawHeight =
+          calculateOctaveHeight(amplitude, frequency, octaves, x, y);
+      float height =
+          (rawHeight - octaves) * 2.0f * amplitude; // Center and scale
+      customMesh.addVertex(ofPoint(x - width / 2., height,
+                                   y - depth / 2.)); // mesh index = x + y*width
+      // this replicates the pixel array within the camera bitmap...
+      customMesh.addColor(ofFloatColor(
+          100, 100,
+          50)); // placeholder for colour data, we'll get this from the camera
+      d++;
+      // Calculate correct texture coordinates
+      float u = x / (width - 1);
+      float v = y / (depth - 1);
+      u = ofClamp(u, 0.0, 1.0);
+      v = ofClamp(v, 0.0, 1.0);
+
+      customMesh.addTexCoord(glm::vec2(u, v)); // add texture coordinates
+    }
+    w++;
+  }
+  // // from:
+  // //
+  // https://github.com/uwe-creative-technology/CT_toolkit_sessions/blob/master/meshExample/src/ofApp.cpp
+  // // here we loop through and join the vertices together as indices to make
+  // rows
+  // // of triangles to make the wireframe grid
+  for (int y = 0; y < d - 1; y++) {
+    for (int x = 0; x < w - 1; x++) {
+      customMesh.addIndex(x + y * w);       // 0
+      customMesh.addIndex((x + 1) + y * w); // 1
+      customMesh.addIndex(x + (y + 1) * w); // 10
+
+      customMesh.addIndex((x + 1) + y * w);       // 1
+      customMesh.addIndex((x + 1) + (y + 1) * w); // 11
+      customMesh.addIndex(x + (y + 1) * w);       // 10
+    }
+  }
+  for (auto face : customMesh.getUniqueFaces()) {
+
+    customMesh.addNormal(face.getFaceNormal());
+  }
+}
 //--------------------------------------------------------------
 void ofApp::setup() {
+  ofDisableArbTex();
   if (ofIsGLProgrammableRenderer()) {
     cout << "gls3" << endl;
     mainShader.load("shadersGL3/mainShader");
@@ -51,21 +121,26 @@ void ofApp::setup() {
   cam.setNearClip(0.1);
   cam.setFarClip(500);
   light.setup();
+
   light.enable();
-  // light.setDirectional();
-  light.setDiffuseColor(ofColor::lightBlue);
-  light.setSpecularColor(ofColor::lightYellow); // like the sun
-  ofFile file;
+  light.setSpotlight(60, 20);
+  light.setPosition(210, 330.0, 750);
+  light.setDiffuseColor(ofFloatColor(1.0, 0.8, 0.8));
+  light.setAmbientColor(ofFloatColor(0.4));
+
   ofFile f2;
-  file.open("simple_terrain.ply", ofFile::ReadOnly);
   f2.open("water_plane.ply", ofFile::ReadOnly);
-  terrainMesh.load(file);
   waterPlane.load(f2);
 
   ofFile s_box;
   s_box.open("skybox.png", ofFile::ReadOnly);
   skybox.load(s_box, 2300, true);
-
+  if (!grassImage.load("grass.jpeg")) {
+    cout << "problem with loading grass texture" << endl;
+  }
+  if (!rockImage.load("rock_or_grass.jpg")) {
+    cout << "problem with loading roock texture" << endl;
+  }
   //                                           0);
   gui.setup();
   gui.add(lightPosX.setup("Light X", -0.2, -50.0, 50.0));
@@ -75,6 +150,11 @@ void ofApp::setup() {
   gui.add(pECentery.setup("Emitter Center Y", 56, -200, 200));
   gui.add(pECenterz.setup("Emitter Center Z", 37, -200, 200));
   gui.add(pECenterRadius.setup("Emitter Center Radius", 0, 0, 30));
+  gui.add(amplitude.setup("Amplitude", 0.1, 0, 10));
+  gui.add(frequency.setup("Frequency", 0.1, 0, 10));
+  gui.add(octaves.setup("Octaves", 1, 0, 10));
+
+  generatePerlinNoiseMesh();
 }
 void ofApp::renderScene() {
   ofSetColor(255);
@@ -104,27 +184,31 @@ void ofApp::renderScene() {
                                 light.getGlobalTransformMatrix());
   mainShader.setUniformMatrix4f("customMVPMatrix", mvp);
 
+  // model = glm::mat4(1.0) * glm::scale(glm::vec3(50, 50, 50));
+  mainShader.setUniformMatrix4f("model", model);
+
+  mainShader.setUniformTexture("grassTexture", grassImage, 0);
+  mainShader.setUniformTexture("rockTexture", rockImage, 1);
+
+  customMesh.draw();
 
   model = glm::mat4(1.0) * glm::scale(glm::vec3(50, 50, 50));
   mainShader.setUniformMatrix4f("model", model);
-
-  terrainMesh.draw();
   waterPlane.draw();
 
   cam.end();
   mainShader.end();
 
   cam.begin();
+  ofEnableLighting();
   skybox.draw();
   cam.end();
 }
 
-
-
 //--------------------------------------------------------------
 void ofApp::update() {
   ofEnableDepthTest();
-
+  generatePerlinNoiseMesh();
   compute.begin();
   // cout << pECenterx << endl;
   compute.setUniform1f("emitterX", pECenterx);
@@ -137,37 +221,20 @@ void ofApp::update() {
   particlesBuffer.copyTo(particlesBuffer2);
 }
 
-void drawNormals(ofVboMesh &mesh) {
-  auto normals = mesh.getNormals();
-  auto vertices = mesh.getVertices();
-  float size = 0.05;
-  for (int i = 0; i < vertices.size(); i++) {
-    auto start = vertices[i];
-    auto end = vertices[i] + normals[i] * size;
-    ofDrawLine(start, end);
-  }
-}
-
 //--------------------------------------------------------------
 void ofApp::draw() {
 
   renderScene();
 
   cam.begin();
-  ofSetColor(ofColor::yellow);
-  ofDrawSphere(light.getPosition(),
-               1); // Draw the light's position as a small sphere
-
-  // Draw a line from the light to the target
-  ofSetColor(ofColor::red);
-  ofDrawLine(light.getPosition(),
-             glm::vec3(0.0f, 0.0f, 0.0f)); // Line to the target
-  ofSetColor(ofColor::red);
-  glPointSize(5);
-  vbo.draw(GL_POINTS, 0, particles.size());
+  glPointSize(10.0f); // Set to your desired size
+  vbo.draw(GL_POINTS, 0, particles.size()); // drawing particles
+  if (ofGetKeyPressed('d')) {
+    grassImage.getTexture().draw(0, 0, 200, 200);
+    // cout << grassImage.getColor(0) << endl;
+  }
   cam.end();
 
-  // GUI STUFF
   ofDisableDepthTest();
   gui.draw();
   ofEnableDepthTest();
