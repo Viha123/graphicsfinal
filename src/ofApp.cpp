@@ -33,15 +33,18 @@ void ofApp::generatePerlinNoiseMesh() {
   int width = 50;
   int depth = 50;
   customMesh.clear();
+  int numX = (width) * 2; // for 0.5 steps
+  int numZ = (depth) * 2;
+  heightMap.resize(numZ, std::vector<float>(numX, 0.0f));
   // here we make the points inside our mesh
   // add one vertex to the mesh across our width and height
   // we use these x and y values to set the x and y co-ordinates of the mesh,
   // adding a z value of zero to complete the 3d location of each vertex
   int w = 0;
   int d = 0;
-  for (float y = 0; y < depth; y += 0.5) {
+  for (float y = 0; y < depth; y += 0.5, ++w) {
     d = 0;
-    for (float x = 0; x < width; x += 0.5) {
+    for (float x = 0; x < width; x += 0.5,++d) {
       float rawHeight =
           calculateOctaveHeight(amplitude, frequency, octaves, x, y);
       float height =
@@ -49,19 +52,15 @@ void ofApp::generatePerlinNoiseMesh() {
       customMesh.addVertex(ofPoint(x - width / 2., height,
                                    y - depth / 2.)); // mesh index = x + y*width
       // this replicates the pixel array within the camera bitmap...
-      customMesh.addColor(ofFloatColor(
-          100, 100,
-          50)); // placeholder for colour data, we'll get this from the camera
-      d++;
       // Calculate correct texture coordinates
       float u = x / (width - 1);
       float v = y / (depth - 1);
       u = ofClamp(u, 0.0, 1.0);
       v = ofClamp(v, 0.0, 1.0);
+      heightMap[w][d] = height; // Store height for (x, z)
 
       customMesh.addTexCoord(glm::vec2(u, v)); // add texture coordinates
     }
-    w++;
   }
   // // from:
   // //
@@ -142,7 +141,7 @@ void ofApp::setup() {
   if (!rockImage.load("rock_or_grass.jpg")) {
     cout << "problem with loading roock texture" << endl;
   }
-  if(!model.load("fish.obj")){
+  if (!model.load("fish.obj")) {
     cout << "problem with loading fish model" << endl;
   }
   //                                           0);
@@ -161,8 +160,7 @@ void ofApp::setup() {
   generatePerlinNoiseMesh();
 
   // flock thing  // vbo.disableColors();s
-  flock.generateFlock(200);
-
+  flock.generateFlock(10);
 }
 void ofApp::renderScene() {
   ofSetColor(255);
@@ -211,7 +209,6 @@ void ofApp::renderScene() {
   ofDisableLighting();
   light.setPosition(lightPosX, lightPosY, lightPosZ);
   ofDrawSphere(light.getPosition(), 0.1);
-  
 
   skybox.draw();
   flock.draw();
@@ -243,7 +240,7 @@ void ofApp::draw() {
   cam.begin();
   // ofDisableLighting();
 
-  glPointSize(10.0f); // Set to your desired size
+  glPointSize(10.0f);                       // Set to your desired size
   vbo.draw(GL_POINTS, 0, particles.size()); // drawing particles
   if (ofGetKeyPressed('d')) {
     grassImage.getTexture().draw(0, 0, 200, 200);
@@ -251,7 +248,6 @@ void ofApp::draw() {
   }
 
   cam.end();
-
 
   ofDisableDepthTest();
   gui.draw();

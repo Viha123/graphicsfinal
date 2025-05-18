@@ -14,7 +14,7 @@ public:
     void flee(glm::vec3 target);
     void applyForce(glm::vec3 f);
     void setRadii(float sepRadius, float aliRadius, float cohRadius);
-
+    void showRays();
     glm::vec3 separate(const vector<Boid>& boids);
     glm::vec3 align(const vector<Boid>& boids);
     glm::vec3 cohere(const vector<Boid>& boids);
@@ -22,7 +22,7 @@ public:
     void checkEdges();
     vector<glm::vec3> getRays() const;
 
-    float collisionRadius = 5.0f;
+    float collisionRadius = 1.0f;
 
     glm::vec3 position;
     glm::vec3 velocity;

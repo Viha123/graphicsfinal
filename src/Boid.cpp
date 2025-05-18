@@ -52,6 +52,14 @@ vector<glm::vec3> Boid::getRays() const {
   return rays;
 }
 
+void Boid::showRays() {
+  vector<glm::vec3> collisionRays = getRays();
+  for (auto ray : collisionRays) {
+    glm::vec3 end = position + ray;
+    ofDrawLine(position.x, position.y, position.z, end.x, end.y, end.z);
+  }
+}
+
 Boid::Boid() {
   velocity =
       glm::vec3(ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1));
@@ -87,6 +95,9 @@ void Boid::draw(ofx::assimp::Model &model) {
     model.draw();
     // ofDrawCone(0, 0, 0, 0.3, 1.0);
     ofPopMatrix();
+
+    // drawing rays for each boid
+    showRays();
     
   } else {
     ofPushMatrix();
@@ -235,8 +246,8 @@ void Boid::checkEdges() {
     position.x = BOX_LENGTH;
   }
   if (position.y > 0) {
-    position.y = -10;
-  } else if (position.y < -10) {
+    position.y = -20;
+  } else if (position.y < -20) {
     position.y = 0;
   }
   if (position.z > BOX_LENGTH) {
