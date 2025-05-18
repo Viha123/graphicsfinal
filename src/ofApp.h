@@ -36,7 +36,7 @@ public:
   void renderScene(ofShader &shader);
   void generatePerlinNoiseMesh(); // generate the terrain mesh with a vbomesh
   void loadModel(string filename);
-  
+
   ofShader mainShader;
   ofShader debugShader;
   ofShader compute;
@@ -74,4 +74,6 @@ public:
   ofx::assimp::Model model;
   std::string mSceneString;
   std::vector<std::vector<float>> heightMap;
+  ofBoxPrimitive boundingBox;
+  int scale;
 };

@@ -60,9 +60,10 @@ void Boid::showRays() {
   }
 }
 
+
 Boid::Boid() {
   velocity =
-      glm::vec3(ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1));
+      glm::vec3(ofRandom(-0.1, 0.1), ofRandom(0, 0), ofRandom(-0.1, 0.1));
   acceleration =
       glm::vec3(ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1));
   position = glm::vec3(ofRandom(-50, 50), ofRandom(-100, 0), ofRandom(-50, 50));
@@ -75,6 +76,8 @@ Boid::Boid() {
     fishColor.setHsb(ofRandom(190, 210), ofRandom(150, 255),
                      ofRandom(150, 255));
   }
+
+  oldColor = fishColor;
 }
 
 void Boid::draw(ofx::assimp::Model &model) {
@@ -89,7 +92,7 @@ void Boid::draw(ofx::assimp::Model &model) {
     glm::mat4 rotationMatrix = rotateToVector(coneDir, dir);
     glm::mat4 coneTransform =
         glm::translate(glm::mat4(1.0f), position) * rotationMatrix;
-    coneTransform = glm::scale(coneTransform, glm::vec3(0.25, 0.25, 0.25));
+    // coneTransform = glm::scale(coneTransform, glm::vec3(0.1, 0.1, 0.1));
     ofPushMatrix();
     ofMultMatrix(coneTransform);
     model.draw();
@@ -220,14 +223,23 @@ glm::vec3 Boid::cohere(const vector<Boid> &boids) {
   return glm::vec3(0, 0, 0);
 }
 
-void Boid::applyBehaviors(const vector<Boid> &boids) {
+void Boid::applyBehaviors(const vector<Boid> &boids, std::vector<std::vector<float>>& heightMap) {
   glm::vec3 separation = separate(boids);
   glm::vec3 alignment = align(boids);
   glm::vec3 cohesion = cohere(boids);
 
+  // flee from average of collision points
+  // glm::vec3 fleeCollision = flee(heightMap);
+  if (checkUnderHeightMap(position, heightMap)) {
+    fishColor = ofColor::red;
+  } else {
+    fishColor = oldColor;
+  }
+
   separation *= 1.5;
   alignment *= 1;
   cohesion *= 1;
+  // collision point avg *= 3
 
   // separation *= sep;
   // alignment *= ali;
@@ -239,15 +251,15 @@ void Boid::applyBehaviors(const vector<Boid> &boids) {
 }
 
 void Boid::checkEdges() {
-  int BOX_LENGTH = 25;
+  int BOX_LENGTH = 375;
   if (position.x > BOX_LENGTH) {
     position.x = -BOX_LENGTH;
   } else if (position.x < -BOX_LENGTH) {
     position.x = BOX_LENGTH;
   }
   if (position.y > 0) {
-    position.y = -20;
-  } else if (position.y < -20) {
+    position.y = -100;
+  } else if (position.y < -100) {
     position.y = 0;
   }
   if (position.z > BOX_LENGTH) {
@@ -257,4 +269,25 @@ void Boid::checkEdges() {
   }
   // cout << "x: " << position.x << " y: " << position.y << " z: " << position.z
   // << endl;
+}
+
+bool Boid::checkUnderHeightMap(glm::vec3 pos, std::vector<std::vector<float>>& heightMap) {
+  // int x = floor(pos.x * 2);
+  // int z = floor(pos.z * 2);
+
+  int boidMin = -375;
+  int boidMax = 375;
+  int heightRangeMin = 0;
+  int heightRangeMax = 100;
+  
+  int x = ofMap(pos.x, boidMin, boidMax, heightRangeMin, heightRangeMax); //x
+  int z = ofMap(pos.x, boidMin, boidMax, heightRangeMin, heightRangeMax); //x
+  
+  // cout << x <<  "  " << z  << " " << heightMap.size() << " " <<  heightMap[0].size() << endl;
+  if (pos.y < heightMap[x][z]) {
+    // cout << pos.y << " " << heightMap[z][x] << endl;
+    return true;
+  }
+  cout << pos.y << " " << heightMap[z][x] << endl;
+  return false;
 }

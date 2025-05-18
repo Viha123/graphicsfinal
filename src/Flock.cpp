@@ -3,7 +3,7 @@
 Flock::Flock() {
     model.load("fish.obj");
     // model.loadModel("fish.obj");
-    model.setScale(1, 1, 1);
+    // model.setScale(0.8, 0.8, 0.8);
     model.disableMaterials();
     model.disableTextures();
     // model.setScaleNormalization(false);
@@ -27,9 +27,9 @@ void Flock::remove(int i) {
 void Flock::update() {
 }
 
-void Flock::draw() {
+void Flock::draw(std::vector<std::vector<float>>& heightMap) {
     for (auto& boid : boids) { 
-        boid.applyBehaviors(boids);
+        boid.applyBehaviors(boids, heightMap); // TODO move this into update lmfao
         boid.update();
         boid.draw(model);
     }

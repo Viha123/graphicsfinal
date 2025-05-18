@@ -1,11 +1,23 @@
 obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/ofMain.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/of3dPrimitives.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofGLUtils.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsConstants.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMathConstants.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofConstants.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/tess2/include/tesselator.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofFileUtils.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofLog.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSystemUtils.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofURLFileLoader.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/fwd.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/qualifier.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/setup.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/../simd/platform.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/../detail/setup.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofAppRunner.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofMainLoop.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/events/ofEvents.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/events/ofEventUtils.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/events/ofEvent.h \
@@ -14,9 +26,6 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/vec2.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool2.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec2.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/qualifier.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/setup.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/../simd/platform.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec2.inl \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/./compute_vector_relational.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/./setup.hpp \
@@ -32,67 +41,40 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint2.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint2_sized.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../ext/scalar_uint_sized.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofUtils.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/core.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/cpp17.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/unchecked.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomDistributions.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomEngine.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSingleton.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMath.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/fwd.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/../detail/setup.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThread.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThreadChannel.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofJson.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofParameter.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofPoint.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec3f.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec2f.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/trigonometric.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/setup.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/func_trigonometric.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/_vectorize.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec4f.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/vec4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec4.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool4_precision.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float4_precision.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double4_precision.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/setup.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int4_sized.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint4.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint4_sized.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/vec3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec3.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool3_precision.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float3_precision.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double3_precision.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int3_sized.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint3.hpp \
- /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint3_sized.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofWindowSettings.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsBaseTypes.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofColor.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/wrap.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../glm.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/_fixes.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/setup.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../vec3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec3.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool3_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float3_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double3_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int3_sized.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint3.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint3_sized.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../vec4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec4.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool4_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float4_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double4_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/setup.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int4_sized.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint4.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint4_sized.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../mat2x2.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_double2x2.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_mat2x2.hpp \
@@ -165,6 +147,7 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/../vector_relational.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/../detail/setup.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/../detail/func_vector_relational.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/_vectorize.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../common.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/_fixes.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/func_common.inl \
@@ -173,6 +156,8 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_double2x2_precision.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_float2x2.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_float2x2_precision.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../trigonometric.hpp \
+ /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/func_trigonometric.inl \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../packing.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/func_packing.inl \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/type_half.hpp \
@@ -196,15 +181,12 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../gtc/../ext/vector_uint1.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../gtc/../ext/vector_uint1_sized.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/wrap.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofRectangle.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMathConstants.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofXml.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsBaseTypes.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsConstants.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofTypes.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVectorMath.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMatrix4x4.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec4f.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofQuaternion.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec3f.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec2f.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/matrix_transform.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/matrix_projection.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/matrix_projection.inl \
@@ -267,6 +249,31 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/setup.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/type_ptr.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/type_ptr.inl \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofLog.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofFileUtils.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofUtils.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/core.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/cpp17.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/unchecked.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomDistributions.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomEngine.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSingleton.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMath.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofNode.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofParameter.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofPoint.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofRectangle.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/ofMain.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSystemUtils.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofURLFileLoader.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThread.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThreadChannel.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofJson.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofXml.h \
+ /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofTypes.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/communication/ofSerial.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/communication/ofArduino.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofCubeMap.h \
@@ -277,15 +284,7 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofGLRenderer.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofPolyline.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofPolyline.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofAppRunner.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofMainLoop.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofWindowSettings.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/of3dGraphics.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/of3dPrimitives.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofGLUtils.h \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.inl \
- /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofNode.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofBitmapFont.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofPixels.h \
  /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphics.h \
@@ -336,13 +335,25 @@ obj/linux64/Release/src/Flock.o: src/Flock.cpp src/Flock.hpp src/Boid.hpp \
  /home/vihashah/dev/graphics/openFrameworks/addons/ofxAssimp/src/ofxAssimpSkeleton.h
 src/Flock.hpp:
 src/Boid.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/ofMain.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/of3dPrimitives.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofGLUtils.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsConstants.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMathConstants.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofConstants.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/tess2/include/tesselator.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofFileUtils.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofLog.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSystemUtils.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofURLFileLoader.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/fwd.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/qualifier.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/setup.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/../simd/platform.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/../detail/setup.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofAppRunner.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofMainLoop.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/events/ofEvents.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/events/ofEventUtils.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/events/ofEvent.h:
@@ -351,9 +362,6 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/vec2.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool2.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec2.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/qualifier.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/setup.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/../simd/platform.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec2.inl:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/./compute_vector_relational.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/./setup.hpp:
@@ -369,67 +377,40 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint2.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint2_sized.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../ext/scalar_uint_sized.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofUtils.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/core.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/cpp17.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/unchecked.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomDistributions.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomEngine.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSingleton.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMath.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/fwd.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/../detail/setup.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/scalar_constants.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/constants.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThread.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThreadChannel.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofJson.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofParameter.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofPoint.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec3f.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec2f.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/trigonometric.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/setup.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/func_trigonometric.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/detail/_vectorize.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec4f.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/vec4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec4.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool4_precision.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float4_precision.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double4_precision.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/setup.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int4_sized.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint4.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint4_sized.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/vec3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/../detail/type_vec3.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_bool3_precision.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_float3_precision.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_double3_precision.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_int3_sized.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint3.hpp:
-/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/./ext/vector_uint3_sized.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofWindowSettings.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsBaseTypes.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofColor.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/wrap.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../glm.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/_fixes.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/setup.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../vec3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec3.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool3_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float3_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double3_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int3_sized.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint3.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint3_sized.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../vec4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_vec4.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_bool4_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_float4_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_double4_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/setup.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_int4_sized.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint4.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/vector_uint4_sized.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../mat2x2.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_double2x2.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/type_mat2x2.hpp:
@@ -502,6 +483,7 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/../vector_relational.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/../detail/setup.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/../detail/func_vector_relational.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/_vectorize.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../common.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/_fixes.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/../detail/../detail/../detail/../detail/func_common.inl:
@@ -510,6 +492,8 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_double2x2_precision.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_float2x2.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/.././ext/matrix_float2x2_precision.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../trigonometric.hpp:
+/home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/func_trigonometric.inl:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../packing.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/func_packing.inl:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/type_half.hpp:
@@ -533,15 +517,12 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../gtc/../ext/vector_uint1.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../gtc/../ext/vector_uint1_sized.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/wrap.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofRectangle.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMathConstants.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofXml.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsBaseTypes.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphicsConstants.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofTypes.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVectorMath.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMatrix4x4.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec4f.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofQuaternion.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec3f.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofVec2f.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/matrix_transform.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/matrix_projection.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/../ext/matrix_projection.inl:
@@ -604,6 +585,31 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtx/../detail/setup.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/type_ptr.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/glm/include/glm/gtc/type_ptr.inl:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofLog.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofFileUtils.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofUtils.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/core.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/cpp17.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/checked.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/utf8/include/utf8/unchecked.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomDistributions.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofRandomEngine.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSingleton.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/math/ofMath.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofNode.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofParameter.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofPoint.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofRectangle.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/ofMain.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofSystemUtils.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofURLFileLoader.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThread.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofThreadChannel.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofJson.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/utils/ofXml.h:
+/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/types/ofTypes.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/communication/ofSerial.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/communication/ofArduino.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofCubeMap.h:
@@ -614,15 +620,7 @@ src/Boid.hpp:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofGLRenderer.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofPolyline.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofPolyline.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofAppRunner.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofMainLoop.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/app/ofWindowSettings.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/of3dGraphics.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/of3dPrimitives.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/gl/ofGLUtils.h:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofMesh.inl:
-/home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/3d/ofNode.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofBitmapFont.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofPixels.h:
 /home/vihashah/dev/graphics/openFrameworks/libs/openFrameworks/graphics/ofGraphics.h:

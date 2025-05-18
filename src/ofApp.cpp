@@ -44,7 +44,7 @@ void ofApp::generatePerlinNoiseMesh() {
   int d = 0;
   for (float y = 0; y < depth; y += 0.5, ++w) {
     d = 0;
-    for (float x = 0; x < width; x += 0.5,++d) {
+    for (float x = 0; x < width; x += 0.5, ++d) {
       float rawHeight =
           calculateOctaveHeight(amplitude, frequency, octaves, x, y);
       float height =
@@ -57,7 +57,7 @@ void ofApp::generatePerlinNoiseMesh() {
       float v = y / (depth - 1);
       u = ofClamp(u, 0.0, 1.0);
       v = ofClamp(v, 0.0, 1.0);
-      heightMap[w][d] = height; // Store height for (x, z)
+      heightMap[w][d] = height * scale; // Store height for (x, z)
 
       customMesh.addTexCoord(glm::vec2(u, v)); // add texture coordinates
     }
@@ -98,7 +98,7 @@ void ofApp::setup() {
   compute.setupShaderFromFile(GL_COMPUTE_SHADER, "particleCompute.glsl");
   compute.linkProgram();
   particles.resize(1024);
-
+  scale = 15;
   for (auto &p : particles) {
     p.pos.x = pECenterx;
     p.pos.y = pECentery;
@@ -160,7 +160,8 @@ void ofApp::setup() {
   generatePerlinNoiseMesh();
 
   // flock thing  // vbo.disableColors();s
-  flock.generateFlock(10);
+  flock.generateFlock(100);
+  boundingBox.set(750, 200, 750);
 }
 void ofApp::renderScene() {
   ofSetColor(255);
@@ -190,7 +191,7 @@ void ofApp::renderScene() {
                                 light.getGlobalTransformMatrix());
   mainShader.setUniformMatrix4f("customMVPMatrix", mvp);
 
-  // model = glm::mat4(1.0) * glm::scale(glm::vec3(50, 50, 50));
+  model = glm::mat4(1.0) * glm::scale(glm::vec3(scale, scale, scale));
   mainShader.setUniformMatrix4f("model", model);
 
   mainShader.setUniformTexture("grassTexture", grassImage, 0);
@@ -198,9 +199,9 @@ void ofApp::renderScene() {
 
   customMesh.draw();
 
-  model = glm::mat4(1.0) * glm::scale(glm::vec3(100, 100, 100));
-  mainShader.setUniformMatrix4f("model", model);
-  // waterPlane.draw();
+  // model = glm::mat4(1.0) * glm::scale(glm::vec3(150, 150, 150));
+  // mainShader.setUniformMatrix4f("model", model);
+  // // waterPlane.draw();
 
   cam.end();
   mainShader.end();
@@ -211,7 +212,8 @@ void ofApp::renderScene() {
   ofDrawSphere(light.getPosition(), 0.1);
 
   skybox.draw();
-  flock.draw();
+  flock.draw(heightMap);
+  boundingBox.drawWireframe();
   cam.end();
 }
 

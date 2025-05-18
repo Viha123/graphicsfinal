@@ -1,5 +1,6 @@
 #pragma once
 
+#include "of3dPrimitives.h"
 #include "ofMain.h" // why?
 #include "ofxAssimpModel.h"
 // #include "Flock.hpp"
@@ -18,11 +19,12 @@ public:
     glm::vec3 separate(const vector<Boid>& boids);
     glm::vec3 align(const vector<Boid>& boids);
     glm::vec3 cohere(const vector<Boid>& boids);
-    void applyBehaviors(const vector<Boid>& boids);
+    void applyBehaviors(const vector<Boid>& boids, std::vector<std::vector<float>>& heightMap);
+    bool checkUnderHeightMap(glm::vec3 pos, std::vector<std::vector<float>>& heightMap);
     void checkEdges();
     vector<glm::vec3> getRays() const;
 
-    float collisionRadius = 1.0f;
+    float collisionRadius = 0.25f;
 
     glm::vec3 position;
     glm::vec3 velocity;
@@ -30,7 +32,8 @@ public:
     float maxSpeed = 0.1;
     float maxForce = 0.005;
     ofColor fishColor;
-
+    bool underHeight = false;
+    ofColor oldColor;
 private:
     float separationRadius = 8.0; // Default separation radius
     float alignmentRadius = 15.0; // Default alignment radius

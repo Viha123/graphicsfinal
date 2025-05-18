@@ -7,7 +7,7 @@
 class Flock {
 public:
   Flock();
-  void draw();
+  void draw(std::vector<std::vector<float>>& heightMap);
   void add(const Boid &); // so that we can insert a pet :sob:
   void remove(int i);     // based on indexing, what if it's just the amount?
   // for now we want infinite lifespan particles
