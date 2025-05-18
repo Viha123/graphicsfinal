@@ -1,2 +1,3 @@
-ofxCubeMap-master
 ofxGui
+ofxAssimp
+ofxAssimpModelLoader

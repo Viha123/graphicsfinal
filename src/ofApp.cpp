@@ -8,6 +8,7 @@
 #include "ofFileUtils.h"
 #include "ofGraphics.h"
 #include "ofGraphicsConstants.h"
+// #include "ofLight.h"
 #include "ofLight.h"
 #include "ofMain.h"
 #include "ofMath.h"
@@ -113,7 +114,7 @@ void ofApp::setup() {
 
   vbo.setVertexBuffer(particlesBuffer, 4, sizeof(Particle));
   vbo.setColorBuffer(particlesBuffer, sizeof(Particle), sizeof(glm::vec4) * 2);
-  // vbo.disableColors();
+
   particlesBuffer.bindBase(GL_SHADER_STORAGE_BUFFER, 0);
   particlesBuffer2.bindBase(GL_SHADER_STORAGE_BUFFER, 1);
 
@@ -141,6 +142,9 @@ void ofApp::setup() {
   if (!rockImage.load("rock_or_grass.jpg")) {
     cout << "problem with loading roock texture" << endl;
   }
+  if(!model.load("fish.obj")){
+    cout << "problem with loading fish model" << endl;
+  }
   //                                           0);
   gui.setup();
   gui.add(lightPosX.setup("Light X", -0.2, -50.0, 50.0));
@@ -155,6 +159,10 @@ void ofApp::setup() {
   gui.add(octaves.setup("Octaves", 1, 0, 10));
 
   generatePerlinNoiseMesh();
+
+  // flock thing  // vbo.disableColors();s
+  flock.generateFlock(200);
+
 }
 void ofApp::renderScene() {
   ofSetColor(255);
@@ -192,16 +200,21 @@ void ofApp::renderScene() {
 
   customMesh.draw();
 
-  model = glm::mat4(1.0) * glm::scale(glm::vec3(50, 50, 50));
+  model = glm::mat4(1.0) * glm::scale(glm::vec3(100, 100, 100));
   mainShader.setUniformMatrix4f("model", model);
-  waterPlane.draw();
+  // waterPlane.draw();
 
   cam.end();
   mainShader.end();
 
   cam.begin();
-  ofEnableLighting();
+  ofDisableLighting();
+  light.setPosition(lightPosX, lightPosY, lightPosZ);
+  ofDrawSphere(light.getPosition(), 0.1);
+  
+
   skybox.draw();
+  flock.draw();
   cam.end();
 }
 
@@ -223,17 +236,22 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+  // ofSetBackgroundColor(ofColor::black);
 
   renderScene();
 
   cam.begin();
+  // ofDisableLighting();
+
   glPointSize(10.0f); // Set to your desired size
   vbo.draw(GL_POINTS, 0, particles.size()); // drawing particles
   if (ofGetKeyPressed('d')) {
     grassImage.getTexture().draw(0, 0, 200, 200);
     // cout << grassImage.getColor(0) << endl;
   }
+
   cam.end();
+
 
   ofDisableDepthTest();
   gui.draw();

@@ -13,6 +13,9 @@
 #include "ofxPanel.h"
 #include "ofxSlider.h"
 #include <vector>
+
+#include "Flock.hpp"
+
 class ofApp : public ofBaseApp {
 public:
   void setup();
@@ -32,6 +35,7 @@ public:
   void renderScene();
   void renderScene(ofShader &shader);
   void generatePerlinNoiseMesh(); // generate the terrain mesh with a vbomesh
+  void loadModel(string filename);
   ofShader mainShader;
   ofShader debugShader;
   ofShader compute;
@@ -52,20 +56,20 @@ public:
   ofxFloatSlider amplitude;
   ofxFloatSlider frequency;
   ofxFloatSlider octaves;
-  
-  
+
   struct Particle { // include lifespan and stuff later
     glm::vec4 pos;
     glm::vec4 vel;
     ofFloatColor col;
   };
-  
+
   std::vector<Particle> particles;
   ofVbo vbo;
   ofBufferObject particlesBuffer,
       particlesBuffer2; // keep track of current pos and vel, and keep track of
                         // prev pos and vel
   ofImage grassImage, rockImage, snowImage;
-  
-  
+  Flock flock;
+  ofx::assimp::Model model;
+  std::string mSceneString;
 };

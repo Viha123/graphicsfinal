@@ -83,12 +83,11 @@ void main() {
   vec3 result = ambient + diffuse + specular;
   outputColor = vec4(0., 0., 0., 0.);
   if (normal.y == 1) {
-
+    
     outputColor = trasparent_water;
-
   } else {
-    // result = result * normalize(Color);
-    outputColor = vec4(Color, 1.0);
+    result = result * Color;
+    outputColor = vec4(result, 1.0);
   }
   // outputColor = texture2D(grassTexture, uv);
   // outputColor = vec4(Texcoord, 0.0, 1.0);
