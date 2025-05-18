@@ -1,4 +1,6 @@
 #include "Boid.hpp"
+#include "ofColor.h"
+#include "ofGraphics.h"
 #include "quaternion.hpp"
 
 glm::mat4 rotateToVector(glm::vec3 v1, glm::vec3 v2) {
@@ -60,7 +62,6 @@ void Boid::showRays() {
   }
 }
 
-
 Boid::Boid() {
   velocity =
       glm::vec3(ofRandom(-0.1, 0.1), ofRandom(0, 0), ofRandom(-0.1, 0.1));
@@ -82,7 +83,7 @@ Boid::Boid() {
 
 void Boid::draw(ofx::assimp::Model &model) {
   model.enableColors();
-  
+
   ofSetColor(fishColor);
   // cout << fishColor << endl;
   if (glm::length(velocity) > 0) {
@@ -101,7 +102,7 @@ void Boid::draw(ofx::assimp::Model &model) {
 
     // drawing rays for each boid
     showRays();
-    
+
   } else {
     ofPushMatrix();
     ofTranslate(position);
@@ -140,13 +141,14 @@ glm::vec3 Boid::seek(glm::vec3 target) {
   return steer;
 }
 
-void Boid::flee(glm::vec3 target) {
+glm::vec3 Boid::flee(glm::vec3 target) {
   glm::vec3 desired = -(target - position);
   glm::vec3 steer = glm::normalize(desired) * 0.05;
   if (glm::length(steer) > maxForce) {
     steer = glm::normalize(steer) * maxForce;
   }
-  applyForce(steer);
+  // applyForce(steer);
+  return steer;
 }
 
 // Passing in a const reference to ensure correct comparison of boid objects
@@ -223,23 +225,42 @@ glm::vec3 Boid::cohere(const vector<Boid> &boids) {
   return glm::vec3(0, 0, 0);
 }
 
-void Boid::applyBehaviors(const vector<Boid> &boids, std::vector<std::vector<float>>& heightMap) {
+void Boid::applyBehaviors(const vector<Boid> &boids,
+                          std::vector<std::vector<float>> &heightMap) {
   glm::vec3 separation = separate(boids);
   glm::vec3 alignment = align(boids);
   glm::vec3 cohesion = cohere(boids);
 
   // flee from average of collision points
   // glm::vec3 fleeCollision = flee(heightMap);
-  if (checkUnderHeightMap(position, heightMap)) {
-    fishColor = ofColor::red;
-  } else {
-    fishColor = oldColor;
+  // if (checkUnderHeightMap(position, heightMap)) {
+  //   fishColor = ofColor::red;
+  // } else {
+  //   fishColor = oldColor;
+  // }
+  vector<glm::vec3> collisionRays = getRays();
+  int collisionCount = 0;
+  glm::vec3 collisionPoint = glm::vec3(0, 0, 0);
+  for (auto ray : collisionRays) {
+    glm::vec3 endOfRay = position + ray;
+    if (checkUnderHeightMap(endOfRay, heightMap)) {
+      collisionPoint += endOfRay;
+      collisionCount++;
+    }
   }
-
+  glm::vec3 fleeCollision = glm::vec3(0,0,0);
+  if (collisionCount > 0) {
+    collisionPoint /= collisionCount;
+    ofSetColor(ofColor::red);
+    ofDrawSphere(collisionPoint, 0.4);
+    fleeCollision = flee(collisionPoint);
+  }
+  
   separation *= 1.5;
   alignment *= 1;
   cohesion *= 1;
   // collision point avg *= 3
+  fleeCollision *= 3;
 
   // separation *= sep;
   // alignment *= ali;
@@ -248,6 +269,7 @@ void Boid::applyBehaviors(const vector<Boid> &boids, std::vector<std::vector<flo
   applyForce(separation);
   applyForce(alignment);
   applyForce(cohesion);
+  applyForce(fleeCollision);
 }
 
 void Boid::checkEdges() {
@@ -271,23 +293,25 @@ void Boid::checkEdges() {
   // << endl;
 }
 
-bool Boid::checkUnderHeightMap(glm::vec3 pos, std::vector<std::vector<float>>& heightMap) {
+bool Boid::checkUnderHeightMap(glm::vec3 pos,
+                               std::vector<std::vector<float>> &heightMap) {
   // int x = floor(pos.x * 2);
   // int z = floor(pos.z * 2);
 
   int boidMin = -375;
   int boidMax = 375;
   int heightRangeMin = 0;
-  int heightRangeMax = 100;
-  
-  int x = ofMap(pos.x, boidMin, boidMax, heightRangeMin, heightRangeMax); //x
-  int z = ofMap(pos.x, boidMin, boidMax, heightRangeMin, heightRangeMax); //x
-  
-  // cout << x <<  "  " << z  << " " << heightMap.size() << " " <<  heightMap[0].size() << endl;
+  int heightRangeMax = 99;
+
+  int x = ofMap(pos.x, boidMin, boidMax, heightRangeMin, heightRangeMax); // x
+  int z = ofMap(pos.z, boidMin, boidMax, heightRangeMin, heightRangeMax); // x
+
+  // cout << x <<  "  " << z  << " " << heightMap.size() << " " <<
+  // heightMap[0].size() << endl;
   if (pos.y < heightMap[x][z]) {
     // cout << pos.y << " " << heightMap[z][x] << endl;
     return true;
   }
-  cout << pos.y << " " << heightMap[z][x] << endl;
+  // cout << pos.y << " " << heightMap[z][x] << endl;
   return false;
 }

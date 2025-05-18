@@ -153,14 +153,14 @@ void ofApp::setup() {
   gui.add(pECentery.setup("Emitter Center Y", 56, -200, 200));
   gui.add(pECenterz.setup("Emitter Center Z", 37, -200, 200));
   gui.add(pECenterRadius.setup("Emitter Center Radius", 0, 0, 30));
-  gui.add(amplitude.setup("Amplitude", 0.1, 0, 10));
+  gui.add(amplitude.setup("Amplitude", 2.5, 0, 10));
   gui.add(frequency.setup("Frequency", 0.1, 0, 10));
   gui.add(octaves.setup("Octaves", 1, 0, 10));
 
   generatePerlinNoiseMesh();
 
   // flock thing  // vbo.disableColors();s
-  flock.generateFlock(100);
+  flock.generateFlock(10);
   boundingBox.set(750, 200, 750);
 }
 void ofApp::renderScene() {

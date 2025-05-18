@@ -12,7 +12,7 @@ public:
     void draw(ofx::assimp::Model &model);
     void update();
     glm::vec3 seek(glm::vec3 target);
-    void flee(glm::vec3 target);
+    glm::vec3 flee(glm::vec3 target);
     void applyForce(glm::vec3 f);
     void setRadii(float sepRadius, float aliRadius, float cohRadius);
     void showRays();
@@ -24,7 +24,7 @@ public:
     void checkEdges();
     vector<glm::vec3> getRays() const;
 
-    float collisionRadius = 0.25f;
+    float collisionRadius = 15.0f;
 
     glm::vec3 position;
     glm::vec3 velocity;

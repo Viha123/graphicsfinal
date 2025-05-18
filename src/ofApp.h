@@ -76,4 +76,5 @@ public:
   std::vector<std::vector<float>> heightMap;
   ofBoxPrimitive boundingBox;
   int scale;
+  
 };
