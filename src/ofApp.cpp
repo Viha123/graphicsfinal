@@ -165,13 +165,15 @@ void ofApp::setup() {
   generatePerlinNoiseMesh();
 
   // flock thing  // vbo.disableColors();s
+  flock.type = "prey";
   flock.generateFlock(10);
-  // setup predators
-  predators.generateFlock(10);
+  // // setup predators
+  //
   predators.type = "predator";
-
-  food.generateFlock(10);
+  predators.generateFlock(10);
+  cout << "before food" << endl;
   food.type = "food";
+  food.generateFlock(10);
   // for (auto &predator : predators) {
   //   predator.fishColor = ofColor::red;
   //   predator.maxSpeed = 0.2;
@@ -231,7 +233,7 @@ void ofApp::renderScene() {
   skybox.draw();
   // prey
   flock.draw(predators.boids, food.boids, heightMap);
-  // predators
+  // // predators
   predators.draw(emptyBoids, flock.boids, heightMap);
   // drawing food
   food.draw(flock.boids, emptyBoids, heightMap);
@@ -287,7 +289,7 @@ void ofApp::keyPressed(int key) {
     std::cout << cam.getPosition() << std::endl;
   }
   if  (key == 'f') {
-    cout  << "food " << endl
+    cout  << "food " << endl;
     food.generateFlock(10);
   }
   if (key == 'b') {

@@ -81,32 +81,66 @@ float rand(float min, float max, float seed) {
  
 // }
 
+//void main() {
+//    uint id = gl_GlobalInvocationID.x;
+//
+//    float maxLifeTime = 1.0;
+//    float dt = 0.016;
+//    // float dt = 0.005;
+//    vec4 acceleration = vec4(0, -8, 0, 0);
+//
+//    // Check if the particle needs to respawn
+//    if (p2[id].pos.w < 0.0) {
+//        // Respawn at emitter position
+//        p[id].pos.xyz = vec3(emitterX, emitterY, emitterZ);
+//        p2[id].pos.xyz = vec3(emitterX, emitterY, emitterZ);
+//        p[id].vel.x = 0.1; // or random velocity if you want
+//        p[id].vel.y = 10.0;
+//        p[id].vel.z = 0.1;
+//        p2[id].vel.xyz = vec3(0.1, 10.0, 0.1);
+//        p[id].pos.w = maxLifeTime;
+//    } else {
+//        // Integrate as usual
+//        p[id].vel.xyz = p2[id].vel.xyz + acceleration.xyz * dt;
+//        p[id].pos.xyz = p2[id].pos.xyz + (p[id].vel.xyz + p2[id].vel.xyz) * (dt / 2.0);
+//        p[id].pos.w = p2[id].pos.w - dt;
+//    }
+//
+//    // Color logic as before
+//    float lifeRatio = p[id].pos.w / maxLifeTime;
+//    vec3 white = vec3(1.0, 1.0, 1.0);
+//    vec3 red = vec3(1.0, 0.0, 0.0);
+//    vec3 yellow = vec3(1.0, 1.0, 0.0);
+//    vec3 color;
+//    if (lifeRatio > 0.3) {
+//        color = mix(red, white, (lifeRatio - 0.5) * 2.0);
+//    } else {
+//        color = mix(yellow, red, lifeRatio * 2.0);
+//    }
+//    p[id].col = vec4(color, lifeRatio);
+//}
+
 void main() {
     uint id = gl_GlobalInvocationID.x;
 
     float maxLifeTime = 1.0;
     float dt = 0.016;
-    // float dt = 0.005;
-    vec4 acceleration = vec4(0, -8, 0, 0);
+    vec4 acceleration = vec4(0, -8, 0, 0); // Gravity-like force
 
     // Check if the particle needs to respawn
     if (p2[id].pos.w < 0.0) {
-        // Respawn at emitter position
+        // Respawn at emitter position (only update current buffer, not p2)
         p[id].pos.xyz = vec3(emitterX, emitterY, emitterZ);
-        p2[id].pos.xyz = vec3(emitterX, emitterY, emitterZ);
-        p[id].vel.x = 0.1; // or random velocity if you want
-        p[id].vel.y = 10.0;
-        p[id].vel.z = 0.1;
-        p2[id].vel.xyz = vec3(0.1, 10.0, 0.1);
+        p[id].vel.xyz = vec3(0.0, 10.0, 0.0); // Always go up
         p[id].pos.w = maxLifeTime;
     } else {
-        // Integrate as usual
+        // Integrate as usual using previous buffer (p2)
         p[id].vel.xyz = p2[id].vel.xyz + acceleration.xyz * dt;
         p[id].pos.xyz = p2[id].pos.xyz + (p[id].vel.xyz + p2[id].vel.xyz) * (dt / 2.0);
         p[id].pos.w = p2[id].pos.w - dt;
     }
 
-    // Color logic as before
+    // Color logic
     float lifeRatio = p[id].pos.w / maxLifeTime;
     vec3 white = vec3(1.0, 1.0, 1.0);
     vec3 red = vec3(1.0, 0.0, 0.0);

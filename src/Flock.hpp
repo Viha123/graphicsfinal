@@ -19,5 +19,5 @@ public:
   vector<Boid> boids;
 
   ofx::assimp::Model model;
-  std::string type = "prey";
+  std::string type;
 };
