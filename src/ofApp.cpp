@@ -165,13 +165,14 @@ void ofApp::setup() {
   generatePerlinNoiseMesh();
 
   // flock thing  // vbo.disableColors();s
+  flock.type = "prey";
   flock.generateFlock(10);
   // setup predators
-  predators.generateFlock(10);
-  predators.type = "predator";
 
-  food.generateFlock(10);
+  predators.type = "predator";
+  predators.generateFlock(10);
   food.type = "food";
+  food.generateFlock(10);
   // for (auto &predator : predators) {
   //   predator.fishColor = ofColor::red;
   //   predator.maxSpeed = 0.2;
@@ -287,7 +288,7 @@ void ofApp::keyPressed(int key) {
     std::cout << cam.getPosition() << std::endl;
   }
   if  (key == 'f') {
-    cout  << "food " << endl
+    cout  << "food " << endl;
     food.generateFlock(10);
   }
   if (key == 'b') {

@@ -67,7 +67,8 @@ Boid::Boid() {
       glm::vec3(ofRandom(-0.1, 0.1), ofRandom(0, 0), ofRandom(-0.1, 0.1));
   acceleration =
       glm::vec3(ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1), ofRandom(-0.1, 0.1));
-  position = glm::vec3(ofRandom(-300, 300), ofRandom(-50, 0), ofRandom(-300, 300));
+  position =
+      glm::vec3(ofRandom(-300, 300), ofRandom(-50, 0), ofRandom(-300, 300));
 
   if (ofRandom(1) < 0.5) {
     // Generate a random shade of orange
@@ -239,7 +240,7 @@ glm::vec3 Boid::fleeCollision(std::vector<std::vector<float>> &heightMap) {
       collisionCount++;
     }
   }
-  glm::vec3 fleeCollision = glm::vec3(0,0,0);
+  glm::vec3 fleeCollision = glm::vec3(0, 0, 0);
   if (collisionCount > 0) {
     collisionPoint /= collisionCount;
     ofSetColor(ofColor::red);
@@ -250,14 +251,15 @@ glm::vec3 Boid::fleeCollision(std::vector<std::vector<float>> &heightMap) {
   return fleeCollision;
 }
 
-void Boid::applyBehaviors(const vector<Boid> &boids, const vector<Boid> &predators, const vector<Boid> &prey, std::vector<std::vector<float>> &heightMap) {
+void Boid::applyBehaviors(const vector<Boid> &boids,
+                          const vector<Boid> &predators,
+                          const vector<Boid> &prey,
+                          std::vector<std::vector<float>> &heightMap) {
 
-  
   glm::vec3 separation = separate(boids);
   glm::vec3 alignment = align(boids);
   glm::vec3 cohesion = cohere(boids);
   glm::vec3 collision = fleeCollision(heightMap);
-
 
   glm::vec3 fleePredatorForce = glm::vec3(0, 0, 0);
   glm::vec3 seekPreyForce = glm::vec3(0, 0, 0);
@@ -267,7 +269,7 @@ void Boid::applyBehaviors(const vector<Boid> &boids, const vector<Boid> &predato
     // if (!prey.empty()) {
     glm::vec3 preyLocation = glm::vec3(0, 0, 0);
     int numPrey = 0;
-    for (auto& p : prey) {
+    for (auto &p : prey) {
       if (glm::distance(position, p.position) < visionRadius) {
         preyLocation += p.position;
         numPrey++;
@@ -280,10 +282,11 @@ void Boid::applyBehaviors(const vector<Boid> &boids, const vector<Boid> &predato
     // }
   } else if (type == "prey") { // only happens if it has predators and food
     // avoid predators
-    // strength of going after boid is inversely proportional to how far the boid is
+    // strength of going after boid is inversely proportional to how far the
+    // boid is
     glm::vec3 predatorLocation = glm::vec3(0, 0, 0);
     int numPredators = 0;
-    for (auto& predator : predators) {
+    for (auto &predator : predators) {
       if (glm::distance(position, predator.position) < visionRadius) {
         predatorLocation += predator.position;
         numPredators++;
@@ -297,14 +300,14 @@ void Boid::applyBehaviors(const vector<Boid> &boids, const vector<Boid> &predato
 
     // if ((float) health / (float) maxHealth < 0.8) {
     //   // seek food
-    //   for 
+    //   for
     // }
-  } 
+  }
   if (checkUnderHeightMap(position, heightMap)) {
     // fishColor = ofColor::red;
     health = 0;
   }
-  
+
   separation *= 1.5;
   alignment *= 1;
   cohesion *= 1;
@@ -360,6 +363,9 @@ bool Boid::checkUnderHeightMap(glm::vec3 pos,
 
   // cout << x <<  "  " << z  << " " << heightMap.size() << " " <<
   // heightMap[0].size() << endl;
+  x = ofClamp(x, 0, heightMap[0].size() - 1);
+  z = ofClamp(z, 0, heightMap.size() - 1);
+
   if (pos.y <= heightMap[z][x] || pos.y >= 5) {
     // cout << pos.y << " " << heightMap[z][x] << endl;
     return true;
@@ -368,7 +374,7 @@ bool Boid::checkUnderHeightMap(glm::vec3 pos,
   return false;
 }
 
-void Boid::checkInteraction(const vector<Boid>& predators) {
+void Boid::checkInteraction(const vector<Boid> &predators) {
   for (auto predator : predators) {
     if (glm::distance(position, predator.position) < interactionRadius) {
       health = 0;

@@ -53,7 +53,7 @@ void Flock::update() {
 void Flock::draw(const vector<Boid>& predators, const vector<Boid>& prey, std::vector<std::vector<float>> &heightMap) {
   // Remove dead boids
   
-  if (!boids.size()) {
+  if (boids.size()) {
     boids.erase(std::remove_if(boids.begin(), boids.end(),
     [](const Boid &boid) { return boid.health <= 0; }),
 boids.end());
