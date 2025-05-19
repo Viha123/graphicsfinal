@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "Flock.hpp"
+#include "ofxToggle.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -57,7 +58,22 @@ public:
   ofxFloatSlider amplitude;
   ofxFloatSlider frequency;
   ofxFloatSlider octaves;
-  
+  ofxFloatSlider preyMaxSpeed;
+  ofxFloatSlider preyMaxForce;
+  ofxFloatSlider predatorMaxSpeed;
+  ofxFloatSlider predatorMaxForce;
+  ofxFloatSlider predatorVisionRadius;
+  ofxFloatSlider preyVisionRadius;
+  ofxFloatSlider interactionRadius;
+  ofxFloatSlider separationRadius;
+  ofxFloatSlider alignmentRadius;
+  ofxFloatSlider cohesionRadius;
+  ofxToggle enableCollisionRays;
+  ofxToggle enableSeekFoodPoint;
+  ofxToggle showMeshCollision;
+  ofxToggle showHealth;
+  ofxToggle showVolcano;
+
 
   struct Particle { // include lifespan and stuff later
     glm::vec4 pos;

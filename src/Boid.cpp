@@ -2,6 +2,7 @@
 #include "ofColor.h"
 #include "ofGraphics.h"
 #include "quaternion.hpp"
+#include <limits>
 
 glm::mat4 rotateToVector(glm::vec3 v1, glm::vec3 v2) {
   glm::vec3 axis = glm::cross(v1, v2);
@@ -102,6 +103,7 @@ void Boid::draw(ofx::assimp::Model &model) {
     if (type == "predator") {
       coneTransform = glm::scale(coneTransform, glm::vec3(2, 2, 2));
     }
+    
     ofPushMatrix();
     ofMultMatrix(coneTransform);
     model.draw();
@@ -109,7 +111,24 @@ void Boid::draw(ofx::assimp::Model &model) {
     ofPopMatrix();
 
     // drawing rays for each boid
-    showRays();
+    if (toggleShowRays) {
+      showRays();
+    }
+
+    if (toggleShowSeek) {
+      showSeek();
+    }
+    if (toggleHealth) {
+      ofSetColor(fishColor);
+      ofDrawBitmapString(std::to_string(health), position.x, position.y + 10,
+                     position.z);
+    }
+
+    // set the seek pos
+    if (type == "predator") {
+      ofSetColor(ofColor::green);
+      ofDrawSphere(seekPosition, 1);
+    }
 
   } else {
     ofPushMatrix();
@@ -243,14 +262,19 @@ glm::vec3 Boid::fleeCollision(std::vector<std::vector<float>> &heightMap) {
   glm::vec3 fleeCollision = glm::vec3(0, 0, 0);
   if (collisionCount > 0) {
     collisionPoint /= collisionCount;
-    ofSetColor(ofColor::red);
-    ofDrawSphere(collisionPoint, 0.4);
+    if (toggleShowMeshCollision) {
+      ofSetColor(ofColor::red);
+      ofDrawSphere(collisionPoint, 0.4);
+    }
     fleeCollision = flee(collisionPoint);
   }
 
   return fleeCollision;
 }
-
+void Boid::showSeek() {
+  ofSetColor(ofColor::green);
+  ofDrawSphere(seekPosition, 1);
+}
 void Boid::applyBehaviors(const vector<Boid> &boids,
                           const vector<Boid> &predators,
                           const vector<Boid> &prey,
@@ -263,27 +287,29 @@ void Boid::applyBehaviors(const vector<Boid> &boids,
 
   glm::vec3 fleePredatorForce = glm::vec3(0, 0, 0);
   glm::vec3 seekPreyForce = glm::vec3(0, 0, 0);
-  // enum perhaps later
+  float healthPercentage = (float)health / maxHealth;
+
   if (type == "predator") {
-    // if (!prey.empty() && ((float) health / maxHealth) < 0.8) {
-    // if (!prey.empty()) {
-    glm::vec3 preyLocation = glm::vec3(0, 0, 0);
-    int numPrey = 0;
-    for (auto &p : prey) {
-      if (glm::distance(position, p.position) < visionRadius) {
-        preyLocation += p.position;
-        numPrey++;
+    health--;
+    if (healthPercentage < 0.8) {
+      glm::vec3 preyLocation = glm::vec3(0, 0, 0);
+      float minDistance = std::numeric_limits<float>::max();
+      for (auto &p : prey) {
+        if (glm::distance(position, p.position) < visionRadius) {
+          preyLocation = p.position;
+          minDistance =
+              std::min(minDistance, glm::distance(position, p.position));
+        }
+      }
+      if (minDistance < std::numeric_limits<float>::max()) {
+        seekPreyForce = seek(preyLocation);
+        seekPosition = preyLocation;
       }
     }
-    if (numPrey > 0) {
-      preyLocation /= numPrey;
-      seekPreyForce = seek(preyLocation);
-    }
-    // }
+
   } else if (type == "prey") { // only happens if it has predators and food
     // avoid predators
-    // strength of going after boid is inversely proportional to how far the
-    // boid is
+    health--;
     glm::vec3 predatorLocation = glm::vec3(0, 0, 0);
     int numPredators = 0;
     for (auto &predator : predators) {
@@ -298,33 +324,45 @@ void Boid::applyBehaviors(const vector<Boid> &boids,
       fleePredatorForce = flee(predatorLocation);
     }
 
-    // if ((float) health / (float) maxHealth < 0.8) {
-    //   // seek food
-    //   for
-    // }
+    // Seek Prey (Food)
+    if (healthPercentage < 0.8) {
+      separationRadius = interactionRadius;
+      glm::vec3 preyLocation = glm::vec3(0, 0, 0);
+      float minDistance = std::numeric_limits<float>::max();
+      for (auto &p : prey) {
+        if (glm::distance(position, p.position) < visionRadius) {
+          preyLocation = p.position;
+          minDistance =
+              std::min(minDistance, glm::distance(position, p.position));
+        }
+      }
+      if (minDistance < std::numeric_limits<float>::max()) {
+        seekPreyForce = seek(preyLocation);
+        seekPosition = preyLocation;
+      }
+    }
   }
+
+  // Wandering force
+
   if (checkUnderHeightMap(position, heightMap)) {
     // fishColor = ofColor::red;
     health = 0;
   }
 
-  separation *= 1.5;
+  separation *= 1.3;
   alignment *= 1;
   cohesion *= 1;
-
-  collision *= 3;
-  fleePredatorForce *= 2;
-  seekPreyForce *= 1.5;
-
-  // separation *= sep;
-  // alignment *= ali;
-  // cohesion *= coh;
+  collision *= 4;
+  fleePredatorForce *= 2.5;
+  seekPreyForce *= 2.5;
 
   applyForce(separation);
   applyForce(alignment);
   applyForce(cohesion);
   applyForce(collision);
   applyForce(fleePredatorForce);
+  applyForce(seekPreyForce);
 }
 
 void Boid::checkEdges() {
@@ -344,15 +382,48 @@ void Boid::checkEdges() {
   } else if (position.z < -BOX_LENGTH) {
     position.z = BOX_LENGTH;
   }
-  // cout << "x: " << position.x << " y: " << position.y << " z: " << position.z
-  // << endl;
+}
+// cout << "x: " << position.x << " y: " << position.y << " z: " << position.z
+// << endl;
+void Boid::updateParams(const BoidParams &params, const Features &features) {
+  if (type == "prey") {
+    maxSpeed = params.preyMaxSpeed;
+    maxForce = params.preyMaxForce;
+    visionRadius = params.preyVisionRadius;
+  } else if (type == "predator") {
+    maxSpeed = params.predatorMaxSpeed;
+    maxForce = params.predatorMaxForce;
+    visionRadius = params.predatorVisionRadius;
+  }
+  interactionRadius = params.interactionRadius;
+  separationRadius = params.separationRadius;
+  alignmentRadius = params.alignmentRadius;
+  cohesionRadius = params.cohesionRadius;
+
+  if (features.enableCollisionRays) {
+    toggleShowRays = true;
+  } else {
+    toggleShowRays = false;
+  }
+  if (features.enableSeekFoodPoint) {
+    toggleShowSeek = true;
+  } else {
+    toggleShowSeek = false;
+  }
+  if (features.showMeshCollision) {
+    toggleShowMeshCollision = true;
+  } else {
+    toggleShowMeshCollision = false;
+  }
+  if (features.showHealth) {
+    toggleHealth = true;
+  } else {
+    toggleHealth = false;
+  }
 }
 
 bool Boid::checkUnderHeightMap(glm::vec3 pos,
                                std::vector<std::vector<float>> &heightMap) {
-  // int x = floor(pos.x * 2);
-  // int z = floor(pos.z * 2);
-
   int boidMin = -375;
   int boidMax = 375;
   int heightRangeMin = 0;
@@ -360,24 +431,20 @@ bool Boid::checkUnderHeightMap(glm::vec3 pos,
 
   int x = ofMap(pos.x, boidMin, boidMax, heightRangeMin, heightRangeMax); // x
   int z = ofMap(pos.z, boidMin, boidMax, heightRangeMin, heightRangeMax); // x
-
-  // cout << x <<  "  " << z  << " " << heightMap.size() << " " <<
-  // heightMap[0].size() << endl;
   x = ofClamp(x, 0, heightMap[0].size() - 1);
   z = ofClamp(z, 0, heightMap.size() - 1);
 
   if (pos.y <= heightMap[z][x] || pos.y >= 5) {
-    // cout << pos.y << " " << heightMap[z][x] << endl;
     return true;
   }
-  // cout << pos.y << " " << heightMap[z][x] << endl;
   return false;
 }
 
-void Boid::checkInteraction(const vector<Boid> &predators) {
+void Boid::checkInteraction(vector<Boid> &predators) {
   for (auto predator : predators) {
     if (glm::distance(position, predator.position) < interactionRadius) {
       health = 0;
     }
+    predator.health += 2000;
   }
 }

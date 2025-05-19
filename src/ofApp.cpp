@@ -25,7 +25,7 @@ float calculateOctaveHeight(float amplitude, float frequency, int nOctaves,
   for (int i = 0; i < nOctaves; i++) {
     height += ofNoise(x * frequency, y * frequency) * amplitude;
     amplitude *= 0.5;
-    frequency *= 2;
+    frequency *= 1.5;
   }
   return height;
 }
@@ -43,6 +43,9 @@ void ofApp::generatePerlinNoiseMesh() {
   // adding a z value of zero to complete the 3d location of each vertex
   int w = 0;
   int d = 0;
+  int maxHeightPosX = -1;
+  int maxHeightPosZ = -1;
+  float maxHeight = -99999;
   for (float y = 0; y < depth; y += 0.5, ++w) {
     d = 0;
     for (float x = 0; x < width; x += 0.5, ++d) {
@@ -59,10 +62,17 @@ void ofApp::generatePerlinNoiseMesh() {
       u = ofClamp(u, 0.0, 1.0);
       v = ofClamp(v, 0.0, 1.0);
       heightMap[w][d] = height * scale; // Store height for (x, z)
-
+      if (height * scale > maxHeight) {
+        maxHeight = height * scale;
+        maxHeightPosX = w;
+        maxHeightPosZ = d;
+      }
       customMesh.addTexCoord(glm::vec2(u, v)); // add texture coordinates
     }
   }
+  // pECenterx = maxHeightPosX;
+  // pECenterz = maxHeightPosZ;
+  // pECentery = maxHeight + 20;
   // // from:
   // //
   // https://github.com/uwe-creative-technology/CT_toolkit_sessions/blob/master/meshExample/src/ofApp.cpp
@@ -106,6 +116,23 @@ void ofApp::setup() {
   gui.add(amplitude.setup("Amplitude", 2.5, 0, 10));
   gui.add(frequency.setup("Frequency", 0.1, 0, 10));
   gui.add(octaves.setup("Octaves", 1, 0, 10));
+  gui.add(preyMaxSpeed.setup("Prey Max Speed", 0.25, 0.1, 1));
+  gui.add(preyMaxForce.setup("Prey Max Force", 0.10, 0.01, 1.0));
+  gui.add(predatorMaxSpeed.setup("Predator Max Speed", 0.5, 0.1, 1));
+  gui.add(predatorMaxForce.setup("Predator Max Force", 0.10, 0.01, 1.0));
+  gui.add(
+      predatorVisionRadius.setup("Predator Vision Radius", 60.0, 10.0, 200.0));
+  gui.add(preyVisionRadius.setup("Prey Vision Radius", 40.0, 10.0, 200.0));
+  gui.add(interactionRadius.setup("Interaction Radius", 10.0, 1.0, 50.0));
+  gui.add(separationRadius.setup("Separation Radius", 20.0, 1.0, 100.0));
+  gui.add(alignmentRadius.setup("Alignment Radius", 35.0, 1.0, 100.0));
+  gui.add(cohesionRadius.setup("Cohesion Radius", 35.0, 1.0, 100.0));
+  // Add toggles
+  gui.add(enableCollisionRays.setup("Show Collision Rays", true));
+  gui.add(enableSeekFoodPoint.setup("Show Seek Food", true));
+  gui.add(showMeshCollision.setup("Mesh Collisions", true));
+  gui.add(showHealth.setup("Mesh Collisions", true));
+  gui.add(showVolcano.setup("Show Volcano", true));
   // setting up compute shader
   compute.setupShaderFromFile(GL_COMPUTE_SHADER, "particleCompute.glsl");
   compute.linkProgram();
@@ -116,9 +143,9 @@ void ofApp::setup() {
     p.pos.y = pECentery;
     p.pos.z = pECenterz;
     p.pos.w = ofRandom(3);
-    // p.vel = {ofRandom(-5, 5), 10, ofRandom(-5, 5), 0};
+    p.vel = {ofRandom(-5, 5), 10, ofRandom(-5, 5), 0};
     // p.pos = glm::vec4(pECenterx, pECentery, pECenterz, 1.0f);
-    p.vel = {0.1, 10.0, 0.1, 0.0};
+    // p.vel = {0.1, 10.0, 0.1, 0.0};
     p.col = {1.0, 1.0, 1.0, 1.0};
     // p.vel = {0,0,0,0};
   }
@@ -256,6 +283,26 @@ void ofApp::update() {
   compute.end();
   particlesBuffer.copyTo(particlesBuffer2);
   particlesBuffer2.copyTo(particlesBuffer);
+
+  Boid::BoidParams params;
+  params.preyMaxSpeed = preyMaxSpeed;
+  params.preyMaxForce = preyMaxForce;
+  params.predatorMaxSpeed = predatorMaxSpeed;
+  params.predatorMaxForce = predatorMaxForce;
+  params.predatorVisionRadius = predatorVisionRadius;
+  params.preyVisionRadius = preyVisionRadius;
+  params.interactionRadius = interactionRadius;
+  params.separationRadius = separationRadius;
+  params.alignmentRadius = alignmentRadius;
+  params.cohesionRadius = cohesionRadius;
+  Boid::Features features;
+  features.enableCollisionRays = enableCollisionRays;
+  features.enableSeekFoodPoint = enableSeekFoodPoint;
+  features.showMeshCollision = showMeshCollision;
+  features.showHealth = showHealth;
+  flock.update(params, features);
+  predators.update(params, features);
+  food.update(params, features);
 }
 
 //--------------------------------------------------------------
@@ -267,14 +314,17 @@ void ofApp::draw() {
   cam.begin();
   // ofDisableLighting();
 
-  glPointSize(10.0f);                       // Set to your desired size
-  vbo.draw(GL_POINTS, 0, particles.size()); // drawing particles
+  if (showVolcano) {
+    glPointSize(10.0f);                       // Set to your desired size
+    vbo.draw(GL_POINTS, 0, particles.size()); // drawing particles
+    ofDrawSphere(pECenterx, pECentery, pECenterz, 1);
+  }
+
   if (ofGetKeyPressed('d')) {
     grassImage.getTexture().draw(0, 0, 200, 200);
     // cout << grassImage.getColor(0) << endl;
   }
-  ofSetColor(ofColor::blue);
-  ofDrawSphere(pECenterx, pECentery, pECenterz, 1);
+
   cam.end();
 
   ofDisableDepthTest();
@@ -287,8 +337,8 @@ void ofApp::keyPressed(int key) {
   if (key == 'c') {
     std::cout << cam.getPosition() << std::endl;
   }
-  if  (key == 'f') {
-    cout  << "food " << endl;
+  if (key == 'f') {
+    cout << "food " << endl;
     food.generateFlock(10);
   }
   if (key == 'b') {
