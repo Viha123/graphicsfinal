@@ -19,10 +19,12 @@ public:
     glm::vec3 separate(const vector<Boid>& boids);
     glm::vec3 align(const vector<Boid>& boids);
     glm::vec3 cohere(const vector<Boid>& boids);
-    void applyBehaviors(const vector<Boid>& boids, std::vector<std::vector<float>>& heightMap);
+    glm::vec3 fleeCollision(std::vector<std::vector<float>> &heightMap);
+    void applyBehaviors(const vector<Boid>& boids, const vector<Boid> &predators, const vector<Boid>& prey, std::vector<std::vector<float>>& heightMap);
     bool checkUnderHeightMap(glm::vec3 pos, std::vector<std::vector<float>>& heightMap);
     void checkEdges();
     vector<glm::vec3> getRays() const;
+    void checkInteraction(const vector<Boid>& predators);
 
     float collisionRadius = 15.0f;
 
@@ -34,8 +36,16 @@ public:
     ofColor fishColor;
     bool underHeight = false;
     ofColor oldColor;
+    std::string type = "prey";
+
+    float visionRadius = 30.0;
+    float interactionRadius = 5.0;
+
+    int health = 1000;
+    int maxHealth = 1000;
+
 private:
-    float separationRadius = 8.0; // Default separation radius
-    float alignmentRadius = 15.0; // Default alignment radius
-    float cohesionRadius = 15.0; // Default cohesion radius
+    float separationRadius = 20.0; // Default separation radius
+    float alignmentRadius = 35.0; // Default alignment radius
+    float cohesionRadius = 35.0; // Default cohesion radius
 };

@@ -16,6 +16,7 @@
 #include "ofTexture.h"
 #include "ofUtils.h"
 #include "ofVboMesh.h"
+#include <concepts>
 #include <cstdlib>
 
 float calculateOctaveHeight(float amplitude, float frequency, int nOctaves,
@@ -94,6 +95,17 @@ void ofApp::setup() {
   } else {
     cout << "gls2" << endl;
   }
+  gui.setup();
+  gui.add(lightPosX.setup("Light X", -0.2, -50.0, 50.0));
+  gui.add(lightPosY.setup("Light Y", 1.3, -50.0, 50.0));
+  gui.add(lightPosZ.setup("Light Z", -2.2, -50.0, 50.0));
+  gui.add(pECenterx.setup("Emitter Center X", 14, -400, 600));
+  gui.add(pECentery.setup("Emitter Center Y", 56, -200, 600));
+  gui.add(pECenterz.setup("Emitter Center Z", 50, -200, 600));
+  gui.add(pECenterRadius.setup("Emitter Center Radius", 0, 0, 30));
+  gui.add(amplitude.setup("Amplitude", 2.5, 0, 10));
+  gui.add(frequency.setup("Frequency", 0.1, 0, 10));
+  gui.add(octaves.setup("Octaves", 1, 0, 10));
   // setting up compute shader
   compute.setupShaderFromFile(GL_COMPUTE_SHADER, "particleCompute.glsl");
   compute.linkProgram();
@@ -104,7 +116,11 @@ void ofApp::setup() {
     p.pos.y = pECentery;
     p.pos.z = pECenterz;
     p.pos.w = ofRandom(3);
-    p.vel = {ofRandom(-5, 5), 10, ofRandom(-5, 5), 0};
+    // p.vel = {ofRandom(-5, 5), 10, ofRandom(-5, 5), 0};
+    // p.pos = glm::vec4(pECenterx, pECentery, pECenterz, 1.0f);
+    p.vel = {0.1, 10.0, 0.1, 0.0};
+    p.col = {1.0, 1.0, 1.0, 1.0};
+    // p.vel = {0,0,0,0};
   }
   // setting up the buffers and the vbo. The job of the vbo is to draw on
   // screen.
@@ -119,7 +135,7 @@ void ofApp::setup() {
 
   cam.setDistance(2);
   cam.setNearClip(0.1);
-  cam.setFarClip(500);
+  cam.setFarClip(800);
   light.setup();
 
   light.enable();
@@ -145,22 +161,23 @@ void ofApp::setup() {
     cout << "problem with loading fish model" << endl;
   }
   //                                           0);
-  gui.setup();
-  gui.add(lightPosX.setup("Light X", -0.2, -50.0, 50.0));
-  gui.add(lightPosY.setup("Light Y", 1.3, -50.0, 50.0));
-  gui.add(lightPosZ.setup("Light Z", -2.2, -50.0, 50.0));
-  gui.add(pECenterx.setup("Emitter Center X", 14, -200, 200));
-  gui.add(pECentery.setup("Emitter Center Y", 56, -200, 200));
-  gui.add(pECenterz.setup("Emitter Center Z", 37, -200, 200));
-  gui.add(pECenterRadius.setup("Emitter Center Radius", 0, 0, 30));
-  gui.add(amplitude.setup("Amplitude", 2.5, 0, 10));
-  gui.add(frequency.setup("Frequency", 0.1, 0, 10));
-  gui.add(octaves.setup("Octaves", 1, 0, 10));
 
   generatePerlinNoiseMesh();
 
   // flock thing  // vbo.disableColors();s
   flock.generateFlock(10);
+  // setup predators
+  predators.generateFlock(10);
+  predators.type = "predator";
+
+  food.generateFlock(10);
+  food.type = "food";
+  // for (auto &predator : predators) {
+  //   predator.fishColor = ofColor::red;
+  //   predator.maxSpeed = 0.2;
+  //   predator.maxForce = 0.003;
+  // }
+
   boundingBox.set(750, 200, 750);
 }
 void ofApp::renderScene() {
@@ -212,7 +229,13 @@ void ofApp::renderScene() {
   ofDrawSphere(light.getPosition(), 0.1);
 
   skybox.draw();
-  flock.draw(heightMap);
+  // prey
+  flock.draw(predators.boids, food.boids, heightMap);
+  // predators
+  predators.draw(emptyBoids, flock.boids, heightMap);
+  // drawing food
+  food.draw(flock.boids, emptyBoids, heightMap);
+
   boundingBox.drawWireframe();
   cam.end();
 }
@@ -231,6 +254,7 @@ void ofApp::update() {
   compute.dispatchCompute((particles.size() + 1024 - 1) / 1024, 1, 1);
   compute.end();
   particlesBuffer.copyTo(particlesBuffer2);
+  particlesBuffer2.copyTo(particlesBuffer);
 }
 
 //--------------------------------------------------------------
@@ -248,7 +272,8 @@ void ofApp::draw() {
     grassImage.getTexture().draw(0, 0, 200, 200);
     // cout << grassImage.getColor(0) << endl;
   }
-
+  ofSetColor(ofColor::blue);
+  ofDrawSphere(pECenterx, pECentery, pECenterz, 1);
   cam.end();
 
   ofDisableDepthTest();
@@ -260,6 +285,18 @@ void ofApp::draw() {
 void ofApp::keyPressed(int key) {
   if (key == 'c') {
     std::cout << cam.getPosition() << std::endl;
+  }
+  if  (key == 'f') {
+    cout  << "food " << endl
+    food.generateFlock(10);
+  }
+  if (key == 'b') {
+    std::cout << "boids" << std::endl;
+    flock.generateFlock(10);
+  }
+  if (key == 'p') {
+    std::cout << "predators" << std::endl;
+    predators.generateFlock(10);
   }
 }
 

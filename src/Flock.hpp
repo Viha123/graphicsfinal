@@ -7,7 +7,7 @@
 class Flock {
 public:
   Flock();
-  void draw(std::vector<std::vector<float>>& heightMap);
+  void draw(const vector<Boid>& predators, const vector<Boid>& prey, std::vector<std::vector<float>>& heightMap);
   void add(const Boid &); // so that we can insert a pet :sob:
   void remove(int i);     // based on indexing, what if it's just the amount?
   // for now we want infinite lifespan particles
@@ -19,4 +19,5 @@ public:
   vector<Boid> boids;
 
   ofx::assimp::Model model;
+  std::string type = "prey";
 };

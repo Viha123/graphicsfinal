@@ -57,6 +57,7 @@ public:
   ofxFloatSlider amplitude;
   ofxFloatSlider frequency;
   ofxFloatSlider octaves;
+  
 
   struct Particle { // include lifespan and stuff later
     glm::vec4 pos;
@@ -70,11 +71,12 @@ public:
       particlesBuffer2; // keep track of current pos and vel, and keep track of
                         // prev pos and vel
   ofImage grassImage, rockImage, snowImage;
-  Flock flock;
+  Flock flock, predators, food;
   ofx::assimp::Model model;
   std::string mSceneString;
   std::vector<std::vector<float>> heightMap;
   ofBoxPrimitive boundingBox;
   int scale;
   
+  std::vector<Boid> emptyBoids;
 };
